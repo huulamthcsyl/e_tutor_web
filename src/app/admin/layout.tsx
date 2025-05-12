@@ -39,7 +39,6 @@ export default function DashboardLayout({ children }: LayoutProps) {
   const menuItems = [
     { name: "Tổng quan", icon: "📊", path: "/admin/dashboard" },
     { name: "Quản lý lớp học", icon: "👨‍🏫", path: "/admin/classes" },
-    { name: "Quản lý bài giảng", icon: "📚", path: "/admin/lessons" },
     { name: "Quản lý bài kiểm tra", icon: "✍️", path: "/admin/exams" },
     { name: "Quản lý bài tập", icon: "📝", path: "/admin/homeworks" },
     { name: "Quản lý thông báo", icon: "🔔", path: "/admin/notifications" },
