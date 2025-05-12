@@ -186,9 +186,21 @@ export default function ClassDetailPage() {
               <ul className="divide-y divide-gray-200">
                 {lessons.map(lesson => (
                   <li key={lesson.id} className="py-3">
-                    <div className="font-medium text-gray-900">
-                      {formatTimestamp(lesson.startTime)} - {formatTimestamp(lesson.endTime)}
-                    </div>
+                    <a
+                      href={`/admin/lessons/${lesson.id}`}
+                      className="block hover:bg-gray-50 transition-colors duration-150"
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="font-medium text-gray-900">
+                          {formatTimestamp(lesson.startTime)} - {formatTimestamp(lesson.endTime)}
+                        </div>
+                        <div className="text-blue-600">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </a>
                   </li>
                 ))}
               </ul>
