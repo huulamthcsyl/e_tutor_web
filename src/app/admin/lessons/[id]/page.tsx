@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { LessonItem } from "@/models/lesson";
@@ -73,9 +74,12 @@ export default function LessonDetailPage() {
                 </h1>
                 <div className="mt-2">{getStatusBadge(lessonData.status)}</div>
               </div>
-              <a href={`/admin/classes/${lessonData.classId}`} className="text-blue-600 hover:text-blue-800 text-sm">
+              <Link
+                href={`/admin/classes/${lessonData.classId}`}
+                className="text-blue-600 hover:text-blue-800 text-sm"
+              >
                 Xem lớp học
-              </a>
+              </Link>
             </div>
 
             <div className="space-y-4">

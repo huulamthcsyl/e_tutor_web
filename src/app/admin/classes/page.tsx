@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ClassItem, fetchClasses, filterClasses, paginateClasses } from "@/services/classService";
 
 const ITEMS_PER_PAGE = 10;
@@ -62,12 +63,12 @@ export default function ManageClassesPage() {
           )}
         </div>
 
-        <a
+        <Link
           href="/admin/classes/new"
           className="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-700 transition-colors ml-4"
         >
           + Thêm lớp mới
-        </a>
+        </Link>
       </div>
 
       {loading ? (
@@ -103,9 +104,12 @@ export default function ManageClassesPage() {
                     <tr
                       key={cls.id}
                       className="cursor-pointer hover:bg-blue-50 transition-colors"
-                      onClick={() => (window.location.href = `/admin/classes/${cls.id}`)}
                     >
-                      <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{cls.name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <Link href={`/admin/classes/${cls.id}`} className="font-medium text-gray-900 hover:text-blue-600">
+                          {cls.name}
+                        </Link>
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap text-gray-700">{cls.description || "-"}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-gray-500">
                         {cls.createdAt?.toDate ? cls.createdAt.toDate().toLocaleDateString() : "-"}

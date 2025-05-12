@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { fetchDashboardData, Stats, Activity } from "@/services/dashboardService";
+import Link from "next/link";
 
 export default function Dashboard() {
   const [stats, setStats] = useState<Stats[]>([]);
@@ -140,34 +141,34 @@ export default function Dashboard() {
           </div>
           <div className="p-6">
             <div className="grid grid-cols-2 gap-4">
-              <a
+              <Link
                 href="/admin/classes/new"
                 className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
               >
                 <span className="text-2xl mr-3">👨‍🏫</span>
                 <span className="text-sm font-medium text-gray-900">Tạo lớp mới</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/admin/lessons/new"
                 className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
               >
                 <span className="text-2xl mr-3">📚</span>
                 <span className="text-sm font-medium text-gray-900">Thêm bài giảng</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/admin/exams/new"
                 className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
               >
                 <span className="text-2xl mr-3">✍️</span>
                 <span className="text-sm font-medium text-gray-900">Tạo bài kiểm tra</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/admin/homeworks/new"
                 className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
               >
                 <span className="text-2xl mr-3">📝</span>
                 <span className="text-sm font-medium text-gray-900">Giao bài tập</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
