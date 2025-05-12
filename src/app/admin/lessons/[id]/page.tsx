@@ -9,9 +9,11 @@ import { formatTimestamp } from "@/utils/formatTimestamp";
 
 const getStatusBadge = (status?: string) => {
   switch (status) {
-    case 'completed':
-      return <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Đã hoàn thành</span>;
-    case 'cancelled':
+    case "completed":
+      return (
+        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Đã hoàn thành</span>
+      );
+    case "cancelled":
       return <span className="px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">Đã hủy</span>;
     default:
       return <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">Đã lên lịch</span>;
@@ -69,14 +71,9 @@ export default function LessonDetailPage() {
                 <h1 className="text-2xl font-bold text-gray-800">
                   Buổi học {classData?.name ? `- ${classData.name}` : ""}
                 </h1>
-                <div className="mt-2">
-                  {getStatusBadge(lessonData.status)}
-                </div>
+                <div className="mt-2">{getStatusBadge(lessonData.status)}</div>
               </div>
-              <a
-                href={`/admin/classes/${lessonData.classId}`}
-                className="text-blue-600 hover:text-blue-800 text-sm"
-              >
+              <a href={`/admin/classes/${lessonData.classId}`} className="text-blue-600 hover:text-blue-800 text-sm">
                 Xem lớp học
               </a>
             </div>
@@ -84,22 +81,16 @@ export default function LessonDetailPage() {
             <div className="space-y-4">
               <div>
                 <span className="font-medium text-gray-700">Thời gian bắt đầu:</span>
-                <span className="ml-2 text-gray-900">
-                  {formatTimestamp(lessonData.startTime)}
-                </span>
+                <span className="ml-2 text-gray-900">{formatTimestamp(lessonData.startTime)}</span>
               </div>
               <div>
                 <span className="font-medium text-gray-700">Thời gian kết thúc:</span>
-                <span className="ml-2 text-gray-900">
-                  {formatTimestamp(lessonData.endTime)}
-                </span>
+                <span className="ml-2 text-gray-900">{formatTimestamp(lessonData.endTime)}</span>
               </div>
               {lessonData.createdAt && (
                 <div>
                   <span className="font-medium text-gray-700">Ngày tạo:</span>
-                  <span className="ml-2 text-gray-900">
-                    {formatTimestamp(lessonData.createdAt)}
-                  </span>
+                  <span className="ml-2 text-gray-900">{formatTimestamp(lessonData.createdAt)}</span>
                 </div>
               )}
             </div>
@@ -108,27 +99,21 @@ export default function LessonDetailPage() {
           {lessonData.content && (
             <div className="bg-white shadow rounded-lg p-6 mb-8">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Nội dung bài học</h2>
-              <div className="prose max-w-none">
-                {lessonData.content}
-              </div>
+              <div className="prose max-w-none">{lessonData.content}</div>
             </div>
           )}
 
           {lessonData.homework && (
             <div className="bg-white shadow rounded-lg p-6 mb-8">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Bài tập về nhà</h2>
-              <div className="prose max-w-none">
-                {lessonData.homework}
-              </div>
+              <div className="prose max-w-none">{lessonData.homework}</div>
             </div>
           )}
 
           {lessonData.note && (
             <div className="bg-white shadow rounded-lg p-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Ghi chú</h2>
-              <div className="prose max-w-none">
-                {lessonData.note}
-              </div>
+              <div className="prose max-w-none">{lessonData.note}</div>
             </div>
           )}
         </>

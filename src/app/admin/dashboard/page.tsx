@@ -69,25 +69,24 @@ export default function Dashboard() {
                 <div className="flex-shrink-0 text-2xl">{stat.icon}</div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">
-                      {stat.name}
-                    </dt>
+                    <dt className="text-sm font-medium text-gray-500 truncate">{stat.name}</dt>
                     <dd className="flex items-baseline">
-                      <div className="text-2xl font-semibold text-gray-900">
-                        {stat.value}
-                      </div>
-                      <div className={`ml-2 flex items-baseline text-sm font-semibold ${
-                        stat.changeType === 'increase' ? 'text-green-600' :
-                        stat.changeType === 'decrease' ? 'text-red-600' :
-                        stat.changeType === 'new' ? 'text-blue-600' :
-                        'text-yellow-600'
-                      }`}>
+                      <div className="text-2xl font-semibold text-gray-900">{stat.value}</div>
+                      <div
+                        className={`ml-2 flex items-baseline text-sm font-semibold ${
+                          stat.changeType === "increase"
+                            ? "text-green-600"
+                            : stat.changeType === "decrease"
+                              ? "text-red-600"
+                              : stat.changeType === "new"
+                                ? "text-blue-600"
+                                : "text-yellow-600"
+                        }`}
+                      >
                         {stat.change}
                       </div>
                     </dd>
-                    <dd className="mt-1 text-sm text-gray-500">
-                      {stat.description}
-                    </dd>
+                    <dd className="mt-1 text-sm text-gray-500">{stat.description}</dd>
                   </dl>
                 </div>
               </div>
@@ -108,10 +107,7 @@ export default function Dashboard() {
                   <li key={index}>
                     <div className="relative pb-8">
                       {index !== recentActivities.length - 1 && (
-                        <span
-                          className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                          aria-hidden="true"
-                        />
+                        <span className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
                       )}
                       <div className="relative flex space-x-3">
                         <div>
@@ -122,10 +118,7 @@ export default function Dashboard() {
                         <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
                           <div>
                             <p className="text-sm text-gray-500">
-                              {activity.title}{" "}
-                              <span className="font-medium text-gray-900">
-                                {activity.description}
-                              </span>
+                              {activity.title} <span className="font-medium text-gray-900">{activity.description}</span>
                             </p>
                           </div>
                           <div className="text-right text-sm whitespace-nowrap text-gray-500">

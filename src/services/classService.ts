@@ -20,7 +20,7 @@ export interface ClassDetail {
 export const fetchClasses = async (): Promise<ClassItem[]> => {
   try {
     const snapshot = await getDocs(collection(db, "classes"));
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as ClassItem[];
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as ClassItem[];
   } catch (error) {
     console.error("Error fetching classes:", error);
     throw new Error("Không thể tải danh sách lớp học.");
@@ -37,9 +37,10 @@ export const deleteClass = async (id: string): Promise<void> => {
 };
 
 export const filterClasses = (classes: ClassItem[], searchTerm: string): ClassItem[] => {
-  return classes.filter(cls =>
-    cls.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    cls.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  return classes.filter(
+    (cls) =>
+      cls.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      cls.description?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 };
 

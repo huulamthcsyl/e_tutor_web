@@ -18,7 +18,7 @@ const formatTimestamp = (timestamp?: string) => {
 
 const formatTime = (time: string) => {
   const date = new Date(time);
-  return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 };
 
 export default function ClassDetailPage() {
@@ -62,7 +62,7 @@ export default function ClassDetailPage() {
       try {
         const lessonsQuery = query(collection(db, "lessons"), where("classId", "==", classId));
         const snapshot = await getDocs(lessonsQuery);
-        setLessons(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as LessonItem[]);
+        setLessons(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as LessonItem[]);
       } catch {
         setLessonsError("Không thể tải danh sách buổi học.");
       } finally {
@@ -89,7 +89,7 @@ export default function ClassDetailPage() {
             id: userId,
             name: userData?.name || "Không có tên",
             phoneNumber: userData?.phoneNumber || "Không có số điện thoại",
-            role: userData?.role || "student"
+            role: userData?.role || "student",
           };
         });
         const membersData = await Promise.all(memberPromises);
@@ -119,15 +119,11 @@ export default function ClassDetailPage() {
             </div>
             <div className="mb-2">
               <span className="font-medium text-gray-700">Ngày tạo:</span>
-              <span className="ml-2 text-gray-900">
-                {formatTimestamp(classData.createdAt)}
-              </span>
+              <span className="ml-2 text-gray-900">{formatTimestamp(classData.createdAt)}</span>
             </div>
             <div className="mb-2">
               <span className="font-medium text-gray-700">Học phí:</span>
-              <span className="ml-2 text-gray-900">
-                {classData.tuition ? formatCurrency(classData.tuition) : "-"}
-              </span>
+              <span className="ml-2 text-gray-900">{classData.tuition ? formatCurrency(classData.tuition) : "-"}</span>
             </div>
           </div>
 
@@ -136,7 +132,10 @@ export default function ClassDetailPage() {
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Lịch học</h2>
               <div className="space-y-3">
                 {classData.schedules.map((schedule, index) => (
-                  <div key={index} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0"
+                  >
                     <div className="font-medium text-gray-900">{getDayName(schedule.day)}</div>
                     <div className="text-gray-600">
                       {formatTime(schedule.startTime)} - {formatTime(schedule.endTime)}
@@ -157,16 +156,14 @@ export default function ClassDetailPage() {
               <div className="text-center text-gray-500">Chưa có thành viên nào trong lớp này.</div>
             ) : (
               <ul className="divide-y divide-gray-200">
-                {members.map(member => (
+                {members.map((member) => (
                   <li key={member.id} className="py-3">
                     <div className="flex justify-between items-center">
                       <div>
                         <div className="font-medium text-gray-900">{member.name}</div>
                         <div className="text-sm text-gray-500">{member.phoneNumber}</div>
                       </div>
-                      <div className="text-sm text-gray-500">
-                        {getRoleName(member.role)}
-                      </div>
+                      <div className="text-sm text-gray-500">{getRoleName(member.role)}</div>
                     </div>
                   </li>
                 ))}
@@ -184,7 +181,7 @@ export default function ClassDetailPage() {
               <div className="text-center text-gray-500">Chưa có buổi học nào cho lớp này.</div>
             ) : (
               <ul className="divide-y divide-gray-200">
-                {lessons.map(lesson => (
+                {lessons.map((lesson) => (
                   <li key={lesson.id} className="py-3">
                     <a
                       href={`/admin/lessons/${lesson.id}`}

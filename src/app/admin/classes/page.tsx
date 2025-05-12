@@ -1,11 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import {
-  ClassItem,
-  fetchClasses,
-  filterClasses,
-  paginateClasses,
-} from "@/services/classService";
+import { ClassItem, fetchClasses, filterClasses, paginateClasses } from "@/services/classService";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -32,11 +27,7 @@ export default function ManageClassesPage() {
   }, []);
 
   const filteredClasses = filterClasses(classes, searchTerm);
-  const { paginatedClasses, totalPages } = paginateClasses(
-    filteredClasses,
-    currentPage,
-    ITEMS_PER_PAGE
-  );
+  const { paginatedClasses, totalPages } = paginateClasses(filteredClasses, currentPage, ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -89,9 +80,15 @@ export default function ManageClassesPage() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tên lớp</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mô tả</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ngày tạo</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Tên lớp
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Mô tả
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Ngày tạo
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -102,16 +99,16 @@ export default function ManageClassesPage() {
                     </td>
                   </tr>
                 ) : (
-                  paginatedClasses.map(cls => (
+                  paginatedClasses.map((cls) => (
                     <tr
                       key={cls.id}
                       className="cursor-pointer hover:bg-blue-50 transition-colors"
-                      onClick={() => window.location.href = `/admin/classes/${cls.id}`}
+                      onClick={() => (window.location.href = `/admin/classes/${cls.id}`)}
                     >
                       <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{cls.name}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-gray-700">{cls.description || '-'}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-700">{cls.description || "-"}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                        {cls.createdAt?.toDate ? cls.createdAt.toDate().toLocaleDateString() : '-'}
+                        {cls.createdAt?.toDate ? cls.createdAt.toDate().toLocaleDateString() : "-"}
                       </td>
                     </tr>
                   ))
@@ -126,20 +123,18 @@ export default function ManageClassesPage() {
               disabled={currentPage === 1}
               className={`px-3 py-1 rounded-md ${
                 currentPage === 1
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
               } border`}
             >
               ←
             </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
                 onClick={() => handlePageChange(page)}
                 className={`px-3 py-1 rounded-md border ${
-                  currentPage === page
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                  currentPage === page ? "bg-blue-600 text-white" : "bg-white text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 {page}
@@ -150,8 +145,8 @@ export default function ManageClassesPage() {
               disabled={currentPage === totalPages}
               className={`px-3 py-1 rounded-md ${
                 currentPage === totalPages
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50'
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
               } border`}
             >
               →

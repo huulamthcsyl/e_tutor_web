@@ -28,7 +28,7 @@ export const formatTimeAgo = (timestamp: Timestamp | Date | string | undefined):
       date = timestamp.toDate();
     } else if (timestamp instanceof Date) {
       date = timestamp;
-    } else if (typeof timestamp === 'string') {
+    } else if (typeof timestamp === "string") {
       date = new Date(timestamp);
     } else {
       return "Không xác định";
@@ -51,10 +51,9 @@ const fetchCollectionStats = async (collectionName: string) => {
   const collectionQuery = query(collection(db, collectionName));
   const snapshot = await getDocs(collectionQuery);
   const total = snapshot.size;
-  const newItems = snapshot.docs.filter(doc => {
+  const newItems = snapshot.docs.filter((doc) => {
     const data = doc.data();
-    return data.createdAt &&
-           data.createdAt.toDate() > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    return data.createdAt && data.createdAt.toDate() > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   }).length;
   return { total, newItems };
 };
@@ -62,33 +61,36 @@ const fetchCollectionStats = async (collectionName: string) => {
 const fetchNotifications = async () => {
   const notificationsQuery = query(collection(db, "notifications"));
   const notificationsSnapshot = await getDocs(notificationsQuery);
-  return notificationsSnapshot.docs.map(doc => {
-    const data = doc.data();
-    const getIcon = (documentType: string | undefined) => {
-      switch (documentType) {
-        case 'class':
-          return '👨‍🏫';
-        case 'exam':
-          return '✍️';
-        case 'homework':
-          return '📝';
-        default:
-          return '🔔';
-      }
-    };
+  return notificationsSnapshot.docs
+    .map((doc) => {
+      const data = doc.data();
+      const getIcon = (documentType: string | undefined) => {
+        switch (documentType) {
+          case "class":
+            return "👨‍🏫";
+          case "exam":
+            return "✍️";
+          case "homework":
+            return "📝";
+          default:
+            return "🔔";
+        }
+      };
 
-    return {
-      type: data.type || "notification",
-      title: data.title || "Thông báo mới",
-      description: data.body || "Thông báo mới",
-      time: formatTimeAgo(data.createdAt),
-      icon: getIcon(data.documentType)
-    };
-  }).sort((a, b) => {
-    const timeA = new Date(a.time).getTime();
-    const timeB = new Date(b.time).getTime();
-    return timeB - timeA;
-  }).slice(0, 4);
+      return {
+        type: data.type || "notification",
+        title: data.title || "Thông báo mới",
+        description: data.body || "Thông báo mới",
+        time: formatTimeAgo(data.createdAt),
+        icon: getIcon(data.documentType),
+      };
+    })
+    .sort((a, b) => {
+      const timeA = new Date(a.time).getTime();
+      const timeB = new Date(b.time).getTime();
+      return timeB - timeA;
+    })
+    .slice(0, 4);
 };
 
 export const fetchDashboardData = async () => {
@@ -97,7 +99,7 @@ export const fetchDashboardData = async () => {
       fetchCollectionStats("classes"),
       fetchCollectionStats("lessons"),
       fetchCollectionStats("exams"),
-      fetchCollectionStats("homework")
+      fetchCollectionStats("homework"),
     ]);
 
     const stats: Stats[] = [
@@ -107,7 +109,7 @@ export const fetchDashboardData = async () => {
         icon: "👨‍🏫",
         change: `+${classesStats.newItems}`,
         changeType: "increase",
-        description: "Lớp học đang hoạt động"
+        description: "Lớp học đang hoạt động",
       },
       {
         name: "Tổng số bài giảng",
@@ -115,7 +117,7 @@ export const fetchDashboardData = async () => {
         icon: "📚",
         change: `+${lessonsStats.newItems}`,
         changeType: "increase",
-        description: "Bài giảng đã tạo"
+        description: "Bài giảng đã tạo",
       },
       {
         name: "Tổng số bài kiểm tra",
@@ -123,7 +125,7 @@ export const fetchDashboardData = async () => {
         icon: "✍️",
         change: `+${examsStats.newItems}`,
         changeType: "increase",
-        description: "Bài kiểm tra đã tạo"
+        description: "Bài kiểm tra đã tạo",
       },
       {
         name: "Tổng số bài tập",
@@ -131,15 +133,15 @@ export const fetchDashboardData = async () => {
         icon: "📝",
         change: `+${homeworkStats.newItems}`,
         changeType: "increase",
-        description: "Bài tập đã giao"
-      }
+        description: "Bài tập đã giao",
+      },
     ];
 
     const recentActivities = await fetchNotifications();
 
     return {
       stats,
-      recentActivities
+      recentActivities,
     };
   } catch (error) {
     console.error("Error fetching dashboard data:", error);

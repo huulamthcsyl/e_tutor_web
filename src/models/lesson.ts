@@ -9,6 +9,6 @@ export interface LessonItem {
   content?: string;
   homework?: string;
   note?: string;
-  status?: 'scheduled' | 'completed' | 'cancelled';
+  status?: "scheduled" | "completed" | "cancelled";
   materials?: Material[];
 }

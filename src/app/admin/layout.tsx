@@ -80,9 +80,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
             <h1 className="ml-4 text-xl font-semibold text-gray-800">eTutor Admin</h1>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="text-sm text-gray-600">
-              {user?.email}
-            </div>
+            <div className="text-sm text-gray-600">{user?.email}</div>
             <button
               onClick={handleLogout}
               className="px-4 py-2 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -107,12 +105,8 @@ export default function DashboardLayout({ children }: LayoutProps) {
                 className="group flex items-center px-2 py-2 text-base font-medium rounded-md text-gray-600 hover:bg-gray-50 hover:text-gray-900 relative"
                 title={!isDrawerOpen ? item.name : undefined}
               >
-                <span className={`${isDrawerOpen ? "mr-3" : "mx-auto"} text-xl`}>
-                  {item.icon}
-                </span>
-                {isDrawerOpen && (
-                  <span className="truncate">{item.name}</span>
-                )}
+                <span className={`${isDrawerOpen ? "mr-3" : "mx-auto"} text-xl`}>{item.icon}</span>
+                {isDrawerOpen && <span className="truncate">{item.name}</span>}
                 {!isDrawerOpen && (
                   <div className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
                     {item.name}
@@ -123,11 +117,7 @@ export default function DashboardLayout({ children }: LayoutProps) {
           </nav>
         </div>
 
-        <div
-          className={`flex-1 transition-all duration-300 ${
-            isDrawerOpen ? "ml-64" : "ml-16"
-          }`}
-        >
+        <div className={`flex-1 transition-all duration-300 ${isDrawerOpen ? "ml-64" : "ml-16"}`}>
           <main className="p-6">{children}</main>
         </div>
       </div>
