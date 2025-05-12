@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { ClassDetail, ClassMember } from "@/models/class";
@@ -183,7 +184,7 @@ export default function ClassDetailPage() {
               <ul className="divide-y divide-gray-200">
                 {lessons.map((lesson) => (
                   <li key={lesson.id} className="py-3">
-                    <a
+                    <Link
                       href={`/admin/lessons/${lesson.id}`}
                       className="block hover:bg-gray-50 transition-colors duration-150"
                     >
@@ -197,7 +198,7 @@ export default function ClassDetailPage() {
                           </svg>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
