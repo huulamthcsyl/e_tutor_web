@@ -106,7 +106,7 @@ export default function ManageClassesPage() {
                       className="cursor-pointer hover:bg-blue-50 transition-colors"
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <Link href={`/admin/classes/${cls.id}`} className="font-medium text-gray-900 hover:text-blue-600">
+                        <Link href={`/admin/classes/${cls.id}`} className="font-medium text-blue-600 hover:text-blue-800">
                           {cls.name}
                         </Link>
                       </td>

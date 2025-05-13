@@ -10,6 +10,7 @@ import { LessonItem } from "@/models/lesson";
 import { getRoleName } from "@/utils/getRoleName";
 import { getDayName } from "@/utils/getDayName";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { ChevronRightIcon } from "@/components/icons";
 
 const formatTimestamp = (timestamp?: string) => {
   if (!timestamp) return "-";
@@ -193,9 +194,7 @@ export default function ClassDetailPage() {
                           {formatTimestamp(lesson.startTime)} - {formatTimestamp(lesson.endTime)}
                         </div>
                         <div className="text-blue-600">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
+                          <ChevronRightIcon />
                         </div>
                       </div>
                     </Link>
