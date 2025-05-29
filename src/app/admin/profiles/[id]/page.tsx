@@ -77,9 +77,15 @@ export default function ProfileDetailPage({ params }: { params: Promise<{ id: st
       <div className="bg-white shadow rounded-lg overflow-hidden">
         <div className="p-6">
           <div className="flex items-center space-x-4 mb-6">
-            <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+            <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden relative">
               {profile.avatarUrl ? (
-                <Image src={profile.avatarUrl} alt={'avatar'} className="w-full h-full object-cover" />
+                <Image
+                  src={profile.avatarUrl}
+                  alt={profile.name || "Profile avatar"}
+                  fill
+                  className="object-cover"
+                  sizes="80px"
+                />
               ) : (
                 <span className="text-2xl text-gray-500">{profile.name?.charAt(0)}</span>
               )}

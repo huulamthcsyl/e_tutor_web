@@ -1,175 +1,196 @@
 "use client";
-import { useState, useEffect } from "react";
-import { fetchDashboardData, Stats, Activity } from "@/services/dashboardService";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { fetchStats } from "@/services/statsService";
 
-export default function Dashboard() {
-  const [stats, setStats] = useState<Stats[]>([]);
-  const [recentActivities, setRecentActivities] = useState<Activity[]>([]);
+export default function DashboardPage() {
+  const [stats, setStats] = useState<{
+    totalStudents: number;
+    totalTeachers: number;
+    totalClasses: number;
+    totalExams: number;
+    totalHomeworks: number;
+    recentClasses: {
+      id: string;
+      name: string;
+      studentCount: number;
+      teacherName: string;
+    }[];
+    upcomingExams: {
+      id: string;
+      title: string;
+      date: string;
+      class: string;
+    }[];
+    recentHomeworks: {
+      id: string;
+      title: string;
+      dueDate: string;
+      class: string;
+    }[];
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadDashboardData = async () => {
+    const loadStats = async () => {
       try {
-        const data = await fetchDashboardData();
-        setStats(data.stats);
-        setRecentActivities(data.recentActivities);
+        const data = await fetchStats();
+        setStats(data);
         setError(null);
-      } catch (err) {
-        setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
-        console.error("Error loading dashboard:", err);
+      } catch (error) {
+        setError(error instanceof Error ? error.message : "Không thể tải thống kê.");
       } finally {
         setLoading(false);
       }
     };
-
-    loadDashboardData();
+    loadStats();
   }, []);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Đang tải dữ liệu...</p>
+          <p className="mt-4 text-gray-600">Đang tải...</p>
         </div>
       </div>
     );
   }
 
-  if (error) {
+  if (error || !stats) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <div className="text-red-600 text-xl mb-4">⚠️</div>
-          <p className="text-gray-800">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Thử lại
-          </button>
-        </div>
+      <div className="max-w-7xl mx-auto py-8">
+        <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-6">{error || "Không thể tải thống kê"}</div>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Tổng quan</h2>
+    <div className="max-w-7xl mx-auto py-8">
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Tổng quan</h1>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.name}
-            className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow duration-200"
-          >
-            <div className="p-5">
-              <div className="flex items-center">
-                <div className="flex-shrink-0 text-2xl">{stat.icon}</div>
-                <div className="ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">{stat.name}</dt>
-                    <dd className="flex items-baseline">
-                      <div className="text-2xl font-semibold text-gray-900">{stat.value}</div>
-                      <div
-                        className={`ml-2 flex items-baseline text-sm font-semibold ${
-                          stat.changeType === "increase"
-                            ? "text-green-600"
-                            : stat.changeType === "decrease"
-                              ? "text-red-600"
-                              : stat.changeType === "new"
-                                ? "text-blue-600"
-                                : "text-yellow-600"
-                        }`}
-                      >
-                        {stat.change}
-                      </div>
-                    </dd>
-                    <dd className="mt-1 text-sm text-gray-500">{stat.description}</dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-medium text-gray-900">Tổng số học sinh</h3>
+          <p className="mt-2 text-3xl font-bold text-blue-600">{stats.totalStudents}</p>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-medium text-gray-900">Tổng số giáo viên</h3>
+          <p className="mt-2 text-3xl font-bold text-green-600">{stats.totalTeachers}</p>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-medium text-gray-900">Tổng số lớp học</h3>
+          <p className="mt-2 text-3xl font-bold text-purple-600">{stats.totalClasses}</p>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-medium text-gray-900">Tổng số bài kiểm tra</h3>
+          <p className="mt-2 text-3xl font-bold text-orange-600">{stats.totalExams}</p>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-lg font-medium text-gray-900">Tổng số bài tập</h3>
+          <p className="mt-2 text-3xl font-bold text-red-600">{stats.totalHomeworks}</p>
+        </div>
       </div>
 
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white shadow rounded-lg">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Classes */}
+        <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900">Hoạt động gần đây</h3>
+            <h2 className="text-lg font-medium text-gray-900">Lớp học gần đây</h2>
           </div>
           <div className="p-6">
-            <div className="flow-root">
-              <ul className="-mb-8">
-                {recentActivities.map((activity, index) => (
-                  <li key={index}>
-                    <div className="relative pb-8">
-                      {index !== recentActivities.length - 1 && (
-                        <span className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
-                      )}
-                      <div className="relative flex space-x-3">
-                        <div>
-                          <span className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center ring-8 ring-white">
-                            <span className="text-white text-sm">{activity.icon}</span>
-                          </span>
-                        </div>
-                        <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                          <div>
-                            <p className="text-sm text-gray-500">
-                              {activity.title} <span className="font-medium text-gray-900">{activity.description}</span>
-                            </p>
-                          </div>
-                          <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                            <time>{activity.time}</time>
-                          </div>
-                        </div>
+            {stats.recentClasses.length === 0 ? (
+              <p className="text-gray-500 text-center">Chưa có lớp học nào</p>
+            ) : (
+              <div className="space-y-4">
+                {stats.recentClasses.map((class_) => (
+                  <Link
+                    key={class_.id}
+                    href={`/admin/classes/${class_.id}`}
+                    className="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-medium text-gray-900">{class_.name}</h3>
+                        <p className="text-sm text-gray-500">Giáo viên: {class_.teacherName}</p>
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {class_.studentCount} học sinh
                       </div>
                     </div>
-                  </li>
+                  </Link>
                 ))}
-              </ul>
-            </div>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg">
+        {/* Upcoming Exams */}
+        <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900">Thao tác nhanh</h3>
+            <h2 className="text-lg font-medium text-gray-900">Bài kiểm tra sắp tới</h2>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-2 gap-4">
-              <Link
-                href="/admin/classes/new"
-                className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-              >
-                <span className="text-2xl mr-3">👨‍🏫</span>
-                <span className="text-sm font-medium text-gray-900">Tạo lớp mới</span>
-              </Link>
-              <Link
-                href="/admin/lessons/new"
-                className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-              >
-                <span className="text-2xl mr-3">📚</span>
-                <span className="text-sm font-medium text-gray-900">Thêm bài giảng</span>
-              </Link>
-              <Link
-                href="/admin/exams/new"
-                className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-              >
-                <span className="text-2xl mr-3">✍️</span>
-                <span className="text-sm font-medium text-gray-900">Tạo bài kiểm tra</span>
-              </Link>
-              <Link
-                href="/admin/homeworks/new"
-                className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-              >
-                <span className="text-2xl mr-3">📝</span>
-                <span className="text-sm font-medium text-gray-900">Giao bài tập</span>
-              </Link>
-            </div>
+            {stats.upcomingExams.length === 0 ? (
+              <p className="text-gray-500 text-center">Không có bài kiểm tra nào sắp tới</p>
+            ) : (
+              <div className="space-y-4">
+                {stats.upcomingExams.map((exam) => (
+                  <Link
+                    key={exam.id}
+                    href={`/admin/exams/${exam.id}`}
+                    className="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-medium text-gray-900">{exam.title}</h3>
+                        <p className="text-sm text-gray-500">Lớp: {exam.class}</p>
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {exam.date}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Recent Homeworks */}
+        <div className="bg-white rounded-lg shadow lg:col-span-2">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-lg font-medium text-gray-900">Bài tập gần đây</h2>
+          </div>
+          <div className="p-6">
+            {stats.recentHomeworks.length === 0 ? (
+              <p className="text-gray-500 text-center">Chưa có bài tập nào</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {stats.recentHomeworks.map((homework) => (
+                  <Link
+                    key={homework.id}
+                    href={`/admin/homeworks/${homework.id}`}
+                    className="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-medium text-gray-900">{homework.title}</h3>
+                        <p className="text-sm text-gray-500">Lớp: {homework.class}</p>
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        Hạn nộp: {homework.dueDate}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
