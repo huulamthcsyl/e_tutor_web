@@ -53,7 +53,8 @@ const fetchCollectionStats = async (collectionName: string) => {
   const total = snapshot.size;
   const newItems = snapshot.docs.filter((doc) => {
     const data = doc.data();
-    return data.createdAt && data.createdAt.toDate() > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const createdAt = new Date(data.createdAt);
+    return data.createdAt && createdAt > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
   }).length;
   return { total, newItems };
 };
