@@ -5,7 +5,7 @@ import Link from "next/link";
 import { doc, getDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { ClassDetail, ClassMember } from "@/models/class";
-import { UserProfile } from "@/models/profile";
+import { Profile } from "@/models/profile";
 import { LessonItem } from "@/models/lesson";
 import { getRoleName } from "@/utils/getRoleName";
 import { getDayName } from "@/utils/getDayName";
@@ -85,7 +85,7 @@ export default function ClassDetailPage() {
 
         const memberPromises = classData.members.map(async (userId) => {
           const userDoc = await getDoc(doc(db, "profiles", userId));
-          const userData = userDoc.data() as UserProfile;
+          const userData = userDoc.data() as Profile;
           return {
             id: userId,
             name: userData?.name || "Không có tên",

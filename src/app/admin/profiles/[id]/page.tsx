@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { use } from "react";
 import { fetchProfile } from "@/services/profileService";
-import { formatTimestamp } from "@/utils/formatTimestamp";
 import { Profile } from "@/models/profile";
+import Image from "next/image";
 
 const getRoleBadge = (role?: string) => {
   switch (role) {
@@ -21,7 +20,6 @@ const getRoleBadge = (role?: string) => {
 };
 
 export default function ProfileDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const { id } = use(params);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -81,7 +79,7 @@ export default function ProfileDetailPage({ params }: { params: Promise<{ id: st
           <div className="flex items-center space-x-4 mb-6">
             <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
               {profile.avatarUrl ? (
-                <img src={profile.avatarUrl} alt={profile.name} className="w-full h-full object-cover" />
+                <Image src={profile.avatarUrl} alt={'avatar'} className="w-full h-full object-cover" />
               ) : (
                 <span className="text-2xl text-gray-500">{profile.name?.charAt(0)}</span>
               )}

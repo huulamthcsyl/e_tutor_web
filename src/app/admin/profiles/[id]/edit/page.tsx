@@ -25,7 +25,7 @@ export default function EditProfilePage({ params }: { params: Promise<{ id: stri
           phoneNumber: data.phoneNumber || "",
           role: data.role || "",
           address: data.address || "",
-          birthDate: data.birthDate || "",
+          birthDate: data.birthDate ? new Date(data.birthDate).toISOString().split('T')[0] : "",
         });
         setError(null);
       } catch (error) {

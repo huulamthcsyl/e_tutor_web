@@ -87,9 +87,15 @@ export const updateProfile = async (id: string, data: Partial<Profile>): Promise
 
     // Fetch and return the updated profile
     const updatedDoc = await getDoc(profileRef);
+    if (!updatedDoc.exists()) {
+      throw new Error("Không thể tải thông tin người dùng sau khi cập nhật");
+    }
+
+    const updatedData = updatedDoc.data();
     return {
       id: updatedDoc.id,
-      ...updatedDoc.data(),
+      ...updatedData,
+      createdAt: updatedData.createdAt instanceof Timestamp ? updatedData.createdAt.toDate().toISOString() : updatedData.createdAt,
     } as Profile;
   } catch (error) {
     console.error("Error updating profile:", error);

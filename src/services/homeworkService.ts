@@ -1,6 +1,5 @@
-import { collection, getDocs, deleteDoc, doc, Timestamp, getDoc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Homework } from "@/models/homework";
 import { Material } from "@/models/material";
 
 export interface HomeworkItem {

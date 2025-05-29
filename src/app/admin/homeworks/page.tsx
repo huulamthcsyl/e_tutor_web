@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { HomeworkItem, fetchHomeworks, filterHomeworks, paginateHomeworks, deleteHomework } from "@/services/homeworkService";
+import { HomeworkItem, fetchHomeworks, filterHomeworks, paginateHomeworks } from "@/services/homeworkService";
 import { formatTimestamp } from "@/utils/formatTimestamp";
 
 const ITEMS_PER_PAGE = 10;
@@ -27,7 +27,6 @@ export default function ManageHomeworksPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
 
   useEffect(() => {
     const loadHomeworks = async () => {
@@ -49,20 +48,6 @@ export default function ManageHomeworksPage() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("Bạn có chắc chắn muốn xóa bài tập này?")) return;
-
-    setDeleteLoading(id);
-    try {
-      await deleteHomework(id);
-      setHomeworks(homeworks.filter((homework) => homework.id !== id));
-    } catch (error) {
-      alert(error instanceof Error ? error.message : "Xóa bài tập thất bại.");
-    } finally {
-      setDeleteLoading(null);
-    }
   };
 
   if (loading) {

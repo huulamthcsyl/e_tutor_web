@@ -1,6 +1,5 @@
-import { collection, getDocs, deleteDoc, doc, Timestamp, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Notification } from "@/models/notification";
 
 export interface NotificationItem {
   id: string;

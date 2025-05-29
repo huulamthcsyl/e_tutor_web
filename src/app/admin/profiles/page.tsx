@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Profile, fetchProfiles, filterProfiles, paginateProfiles } from "@/services/profileService";
-import { formatTimestamp } from "@/utils/formatTimestamp";
+import { fetchProfiles, filterProfiles, paginateProfiles } from "@/services/profileService";
+import { Profile } from "@/models/profile";
 
 const ITEMS_PER_PAGE = 10;
 
